@@ -71,20 +71,3 @@ def build_chunks(path:str, doc_title:str):
         chunks.append(chunk)
     
     return chunks
-
-if __name__ == "__main__":
-    chunks = build_chunks("fastapi.pdf", "FastAPI RAG Reference")
-    print(f"{len(chunks)} chunks")
-
-    first = chunks[0]
-    print(f"\nid: {first.chunk_id()}")
-    print(f"page: {first.page}")
-    print(f"heading: {first.heading}")
-    print(f"\ntext starts:\n{first.text[:200]}")
-    
-    # raw = pages[0][1]
-    # cleaned = clean(raw)
-    # print(f"\nBefore: {len(raw)} chars")
-    # print(f"After: {len(cleaned)} chars")
-    # print(f"\n{repr(cleaned[:300])}")
-    
