@@ -1,6 +1,9 @@
 import os
+import time
 from openai import OpenAI
+from retrieve import search_relevant
 from dotenv import load_dotenv
+from cache import get_cached_answer, set_cached_answer
 
 load_dotenv()
 
@@ -35,33 +38,48 @@ def build_context(matches: list[dict]):
         parts.append(f"{header}\n{match['text']}")
     return "\n\n---\n\n".join(parts)
 
+# cache Answer
+def answer_question(question: str, n_results: int = 5, max_distance: float = 1.2) -> dict:
+    cached = get_cached_answer(question, n_results, max_distance)
+    if cached is not None:
+        return cached
 
-def answer_question(question: str) -> dict:
-    from retrieve import search_relevant
-
-    matches = search_relevant(question)
+    matches = search_relevant(question, n_results, max_distance)
 
     if not matches:
-        return {
+        result = {
             "answer": "I couldn't find anything in the document about that.",
             "sources": [],
         }
+    else:
+        context = build_context(matches)
+        answer = generate_answer(question, context)
 
-    context = build_context(matches)
-    answer = generate_answer(question, context)
+        sources = []
+        for match in matches:
+            sources.append({
+                "page": match["page"],
+                "heading": match["heading"],
+                "distance": match["distance"],
+            })
 
-    sources = []
-    for match in matches:
-        sources.append({
-            "page": match["page"],
-            "heading": match["heading"],
-            "distance": match["distance"],
-        })
+        result = {"answer": answer, "sources": sources}
 
-    return {"answer": answer, "sources": sources}
+    set_cached_answer(question, n_results, max_distance, result)
+    return result
 
 # Test Phase
 if __name__ == "__main__":
-    result = answer_question("what is FastAPI built on top of?")
-    print(result["answer"])
-    print(result["sources"])
+    q = "how do background tasks work?"
+
+    start = time.perf_counter()
+    first = answer_question(q)
+    t1 = time.perf_counter() - start
+
+    start = time.perf_counter()
+    second = answer_question(q)
+    t2 = time.perf_counter() - start
+
+    print(f"first:  {t1:.3f}s")
+    print(f"second: {t2:.3f}s")
+    print(f"same answer: {first['answer'] == second['answer']}")
