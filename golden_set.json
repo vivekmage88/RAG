@@ -1,0 +1,362 @@
+[
+  {
+    "question": "What are the core building blocks behind FastAPI?",
+    "expected_page": 1
+  },
+  {
+    "question": "How does FastAPI use Python type hints?",
+    "expected_page": 1
+  },
+  {
+    "question": "Where do the automatic API docs come from?",
+    "expected_page": 1
+  },
+  {
+    "question": "How do I run a FastAPI application locally?",
+    "expected_page": 2
+  },
+  {
+    "question": "What is Uvicorn used for?",
+    "expected_page": 2
+  },
+  {
+    "question": "What belongs in the first main.py file?",
+    "expected_page": 2
+  },
+  {
+    "question": "What is a path operation in FastAPI?",
+    "expected_page": 3
+  },
+  {
+    "question": "When should PATCH be used instead of PUT?",
+    "expected_page": 3
+  },
+  {
+    "question": "How are HTTP methods mapped to Python functions?",
+    "expected_page": 3
+  },
+  {
+    "question": "How does FastAPI validate a path parameter?",
+    "expected_page": 4
+  },
+  {
+    "question": "What happens if an integer path parameter receives text?",
+    "expected_page": 4
+  },
+  {
+    "question": "Why can route declaration order matter?",
+    "expected_page": 4
+  },
+  {
+    "question": "How are query parameters different from path parameters?",
+    "expected_page": 5
+  },
+  {
+    "question": "How can I restrict a limit query parameter to 100?",
+    "expected_page": 5
+  },
+  {
+    "question": "How do optional filters work in FastAPI?",
+    "expected_page": 5
+  },
+  {
+    "question": "How do I accept JSON in a FastAPI endpoint?",
+    "expected_page": 6
+  },
+  {
+    "question": "What role does Pydantic BaseModel play?",
+    "expected_page": 6
+  },
+  {
+    "question": "Can request bodies contain nested models?",
+    "expected_page": 6
+  },
+  {
+    "question": "How can I require quantity to be non-negative?",
+    "expected_page": 7
+  },
+  {
+    "question": "Where should model field constraints be declared?",
+    "expected_page": 7
+  },
+  {
+    "question": "What does FastAPI return when validation fails?",
+    "expected_page": 7
+  },
+  {
+    "question": "What does response_model do?",
+    "expected_page": 8
+  },
+  {
+    "question": "How can I prevent an internal field from reaching the client?",
+    "expected_page": 8
+  },
+  {
+    "question": "Why use different models for input and output?",
+    "expected_page": 8
+  },
+  {
+    "question": "How do I return a 404 from FastAPI?",
+    "expected_page": 9
+  },
+  {
+    "question": "What is HTTPException used for?",
+    "expected_page": 9
+  },
+  {
+    "question": "How can domain errors be converted into HTTP errors?",
+    "expected_page": 9
+  },
+  {
+    "question": "How do I read an HTTP header in FastAPI?",
+    "expected_page": 10
+  },
+  {
+    "question": "How does Form() differ from a JSON request body?",
+    "expected_page": 10
+  },
+  {
+    "question": "How can an endpoint access cookies?",
+    "expected_page": 10
+  },
+  {
+    "question": "Should I use bytes or UploadFile for uploaded files?",
+    "expected_page": 11
+  },
+  {
+    "question": "How do I access the uploaded filename?",
+    "expected_page": 11
+  },
+  {
+    "question": "What request encoding is used for file uploads?",
+    "expected_page": 11
+  },
+  {
+    "question": "What problem does Depends solve?",
+    "expected_page": 12
+  },
+  {
+    "question": "Can dependencies have their own dependencies?",
+    "expected_page": 12
+  },
+  {
+    "question": "Where should shared request logic live?",
+    "expected_page": 12
+  },
+  {
+    "question": "How do yield dependencies perform cleanup?",
+    "expected_page": 13
+  },
+  {
+    "question": "Can a class be used as a FastAPI dependency?",
+    "expected_page": 13
+  },
+  {
+    "question": "How should a database session be closed after a request?",
+    "expected_page": 13
+  },
+  {
+    "question": "How should a large FastAPI project split routes across files?",
+    "expected_page": 14
+  },
+  {
+    "question": "What does APIRouter prefix do?",
+    "expected_page": 14
+  },
+  {
+    "question": "How do I attach a router to the main app?",
+    "expected_page": 14
+  },
+  {
+    "question": "When should middleware be used?",
+    "expected_page": 15
+  },
+  {
+    "question": "How do I add a timing header to every response?",
+    "expected_page": 15
+  },
+  {
+    "question": "Why does middleware order matter?",
+    "expected_page": 15
+  },
+  {
+    "question": "Why can a browser block my FastAPI request?",
+    "expected_page": 16
+  },
+  {
+    "question": "What is a CORS preflight request?",
+    "expected_page": 16
+  },
+  {
+    "question": "How do I allow one frontend origin?",
+    "expected_page": 16
+  },
+  {
+    "question": "How can FastAPI run a small task after responding?",
+    "expected_page": 17
+  },
+  {
+    "question": "What is BackgroundTasks.add_task used for?",
+    "expected_page": 17
+  },
+  {
+    "question": "When should I use a real job queue instead?",
+    "expected_page": 17
+  },
+  {
+    "question": "What does OAuth2PasswordBearer actually do?",
+    "expected_page": 18
+  },
+  {
+    "question": "Does tokenUrl automatically create a login endpoint?",
+    "expected_page": 18
+  },
+  {
+    "question": "Where is a bearer token sent?",
+    "expected_page": 18
+  },
+  {
+    "question": "Why should passwords be hashed?",
+    "expected_page": 19
+  },
+  {
+    "question": "What is normally stored in the JWT sub claim?",
+    "expected_page": 19
+  },
+  {
+    "question": "What is the difference between authentication and authorization?",
+    "expected_page": 19
+  },
+  {
+    "question": "How long should a database session live?",
+    "expected_page": 20
+  },
+  {
+    "question": "Why use a yield dependency for the database?",
+    "expected_page": 20
+  },
+  {
+    "question": "What do commit and refresh do after inserting a row?",
+    "expected_page": 20
+  },
+  {
+    "question": "When should a FastAPI endpoint use async def?",
+    "expected_page": 21
+  },
+  {
+    "question": "Why is blocking I/O dangerous inside async code?",
+    "expected_page": 21
+  },
+  {
+    "question": "Are normal def route functions supported?",
+    "expected_page": 21
+  },
+  {
+    "question": "How do I create a resource once when FastAPI starts?",
+    "expected_page": 22
+  },
+  {
+    "question": "What executes after yield in a lifespan function?",
+    "expected_page": 22
+  },
+  {
+    "question": "How is lifespan different from a request dependency?",
+    "expected_page": 22
+  },
+  {
+    "question": "When should I use WebSockets instead of HTTP?",
+    "expected_page": 23
+  },
+  {
+    "question": "How does a FastAPI WebSocket endpoint accept a connection?",
+    "expected_page": 23
+  },
+  {
+    "question": "How can the server receive multiple messages?",
+    "expected_page": 23
+  },
+  {
+    "question": "How do I stream output without buffering it all first?",
+    "expected_page": 24
+  },
+  {
+    "question": "What is the difference between SSE and WebSockets?",
+    "expected_page": 24
+  },
+  {
+    "question": "What input can StreamingResponse consume?",
+    "expected_page": 24
+  },
+  {
+    "question": "How do I serve CSS and images from FastAPI?",
+    "expected_page": 25
+  },
+  {
+    "question": "Can FastAPI render Jinja templates?",
+    "expected_page": 25
+  },
+  {
+    "question": "What does app.mount() do for static files?",
+    "expected_page": 25
+  },
+  {
+    "question": "How can I test FastAPI without running Uvicorn?",
+    "expected_page": 26
+  },
+  {
+    "question": "What does TestClient wrap?",
+    "expected_page": 26
+  },
+  {
+    "question": "What should an endpoint test assert?",
+    "expected_page": 26
+  },
+  {
+    "question": "How do I replace a FastAPI dependency in tests?",
+    "expected_page": 27
+  },
+  {
+    "question": "Can I fake the current user without changing route code?",
+    "expected_page": 27
+  },
+  {
+    "question": "Why should dependency overrides be cleared?",
+    "expected_page": 27
+  },
+  {
+    "question": "How are FastAPI Swagger docs generated?",
+    "expected_page": 28
+  },
+  {
+    "question": "Can the /docs URL be changed?",
+    "expected_page": 28
+  },
+  {
+    "question": "How do tags organize the generated documentation?",
+    "expected_page": 28
+  },
+  {
+    "question": "Why should reload not be used in production?",
+    "expected_page": 29
+  },
+  {
+    "question": "What role can a reverse proxy play?",
+    "expected_page": 29
+  },
+  {
+    "question": "How should I decide the number of worker processes?",
+    "expected_page": 29
+  },
+  {
+    "question": "How should a production FastAPI application be structured?",
+    "expected_page": 30
+  },
+  {
+    "question": "What components should a RAG API separate?",
+    "expected_page": 30
+  },
+  {
+    "question": "What reliability concerns matter beyond route code?",
+    "expected_page": 30
+  }
+]

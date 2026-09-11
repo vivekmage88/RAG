@@ -60,3 +60,14 @@ def store_chunks(chunks):
         metadatas=metadatas
     )
     return len(chunks)
+
+
+# Test case
+
+if __name__ == "__main__":
+    from ingest import build_chunks
+
+    chunks = build_chunks("fastapi.pdf", "FastAPI RAG Reference")
+    count = store_chunks(chunks)
+    print(f"Stored {count} chunks")
+    print(f"Collection holds {collection.count()} items")
