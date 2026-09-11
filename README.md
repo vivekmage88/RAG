@@ -22,4 +22,12 @@ every answer. A separate evaluation harness measures retrieval quality against a
     <p><strong>Split Embed   :</strong>Batched calls to text-embedding-3-small , 1,536 dimensions per chunk.</p>
     <p><strong>Build Store   :</strong> Upsert into Chroma keyed on doc id:pN.</p>
   </div>
+
+  <div>
+    <h1>Cache layer Using Redish</h1>
+    <h3>Cache ARCHITECTURE</h3>
+    <img width="2720" height="2080" alt="rag_cache_decision_flow" src="https://github.com/user-attachments/assets/0f0bf721-9f68-4d40-a2fb-6e0bd3882770" />
+
+    
+  </div>
   
