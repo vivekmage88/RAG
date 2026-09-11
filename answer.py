@@ -14,7 +14,7 @@ SYSTEM_PROMPT = """You answer questions about a technical document.
 
 Use ONLY the context provided. Do not use outside knowledge.
 Cite the page number for each claim, like this: (p17).
-If the context does not contain the answer, say so plainly.
+Answer from the context. Only say the document doesn't cover it if the context is genuinely unrelated to the question.
 Never invent page numbers or facts."""
 
 
@@ -42,6 +42,7 @@ def build_context(matches: list[dict]):
 def answer_question(question: str, n_results: int = 5, max_distance: float = 1.2) -> dict:
     cached = get_cached_answer(question, n_results, max_distance)
     if cached is not None:
+        cached["cached"] = True
         return cached
 
     matches = search_relevant(question, n_results, max_distance)
@@ -66,6 +67,7 @@ def answer_question(question: str, n_results: int = 5, max_distance: float = 1.2
         result = {"answer": answer, "sources": sources}
 
     set_cached_answer(question, n_results, max_distance, result)
+    result["cached"] = True
     return result
 
 # Test Phase
