@@ -32,7 +32,7 @@ def search_relevant(question:str, n_results: int = 5, max_distance: float = MAX_
     return matches
     
 
-
+# Testing Phase
 if __name__ == "__main__":
     questions = [
         "how do I validate request bodies?",
