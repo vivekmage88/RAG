@@ -14,7 +14,7 @@ SYSTEM_PROMPT = """You answer questions about a technical document.
 
 Use ONLY the context provided. Do not use outside knowledge.
 Cite the page number for each claim, like this: (p17).
-If the context does not contain the answer, say so plainly.
+Answer from the context. Only say the document doesn't cover it if the context is genuinely unrelated to the question.
 Never invent page numbers or facts."""
 
 
@@ -39,12 +39,13 @@ def build_context(matches: list[dict]):
     return "\n\n---\n\n".join(parts)
 
 # cache Answer
-def answer_question(question: str, n_results: int = 5, max_distance: float = 1.2) -> dict:
-    cached = get_cached_answer(question, n_results, max_distance)
+def answer_question(question: str, n_results: int = 5, max_distance: float = 1.2, doc_id = None) -> dict:
+    cached = get_cached_answer(question, n_results, max_distance, doc_id)
     if cached is not None:
+        cached["cached"] = True
         return cached
 
-    matches = search_relevant(question, n_results, max_distance)
+    matches = search_relevant(question, n_results, max_distance, doc_id)
 
     if not matches:
         result = {
@@ -65,21 +66,6 @@ def answer_question(question: str, n_results: int = 5, max_distance: float = 1.2
 
         result = {"answer": answer, "sources": sources}
 
-    set_cached_answer(question, n_results, max_distance, result)
+    set_cached_answer(question, n_results, max_distance, result, doc_id)
+    result["cached"] = False
     return result
-
-# Test Phase
-if __name__ == "__main__":
-    q = "how do background tasks work?"
-
-    start = time.perf_counter()
-    first = answer_question(q)
-    t1 = time.perf_counter() - start
-
-    start = time.perf_counter()
-    second = answer_question(q)
-    t2 = time.perf_counter() - start
-
-    print(f"first:  {t1:.3f}s")
-    print(f"second: {t2:.3f}s")
-    print(f"same answer: {first['answer'] == second['answer']}")
