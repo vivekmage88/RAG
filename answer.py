@@ -39,13 +39,13 @@ def build_context(matches: list[dict]):
     return "\n\n---\n\n".join(parts)
 
 # cache Answer
-def answer_question(question: str, n_results: int = 5, max_distance: float = 1.2) -> dict:
-    cached = get_cached_answer(question, n_results, max_distance)
+def answer_question(question: str, n_results: int = 5, max_distance: float = 1.2, doc_id = None) -> dict:
+    cached = get_cached_answer(question, n_results, max_distance, doc_id)
     if cached is not None:
         cached["cached"] = True
         return cached
 
-    matches = search_relevant(question, n_results, max_distance)
+    matches = search_relevant(question, n_results, max_distance, doc_id)
 
     if not matches:
         result = {
@@ -66,7 +66,7 @@ def answer_question(question: str, n_results: int = 5, max_distance: float = 1.2
 
         result = {"answer": answer, "sources": sources}
 
-    set_cached_answer(question, n_results, max_distance, result)
+    set_cached_answer(question, n_results, max_distance, doc_id, result)
     result["cached"] = True
     return result
 

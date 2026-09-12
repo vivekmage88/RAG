@@ -47,20 +47,21 @@ def set_cached_embedding(text:str, vector: list[float]):
         
 # Caching Answer section
 
-def make_answer_key(question: str, n_results: int, max_distance: float) -> str:
+def make_answer_key(question: str, n_results: int, max_distance: float, doc_id) -> str:
     payload = json.dumps(
         {
             "question": question.strip().lower(),
             "n_results": n_results,
             "max_distance": max_distance,
+            "doc_id": doc_id,
         },
         sort_keys=True,
     )
     return make_key("answer", payload)
 
 
-def get_cached_answer(question: str, n_results: int, max_distance: float) -> dict | None:
-    key = make_answer_key(question, n_results, max_distance)
+def get_cached_answer(question: str, n_results: int, max_distance: float, doc_id) -> dict | None:
+    key = make_answer_key(question, n_results, max_distance, doc_id)
     try:
         raw = redis_client.get(key)
         if raw is None:
@@ -71,8 +72,8 @@ def get_cached_answer(question: str, n_results: int, max_distance: float) -> dic
         return None
 
 
-def set_cached_answer(question: str, n_results: int, max_distance: float, result: dict) -> None:
-    key = make_answer_key(question, n_results, max_distance)
+def set_cached_answer(question: str, n_results: int, max_distance: float, result: dict, doc_id) -> None:
+    key = make_answer_key(question, n_results, max_distance, doc_id)
     try:
         redis_client.set(key, json.dumps(result), ex=ANSWER_TTL)
     except redis.RedisError as e:
