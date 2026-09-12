@@ -19,6 +19,25 @@ EMBEDDING_TTL = 60 * 60 * 24 * 7
 ANSWER_TTL = 60 * 60
 
 
+# for cache invalidation on document changes
+
+def get_doc_version(doc_id: str | None) -> str:
+    if doc_id is None:
+        return "0"
+    try:
+        version = redis_client.get(f"docver:{doc_id}")
+        return version if version else "0"
+    except redis.RedisError:
+        return "1"
+
+
+def bump_doc_version(doc_id: str) -> None:
+    try:
+        redis_client.incr(f"docver:{doc_id}")
+    except redis.RedisError as e:
+        print(f"Redis version bump failed: {e}")
+
+
 def make_key(prefix:str, value:str):
     normalised = value.strip().lower()
     digest = hashlib.sha256(normalised.encode()).hexdigest()
@@ -54,6 +73,7 @@ def make_answer_key(question: str, n_results: int, max_distance: float, doc_id) 
             "n_results": n_results,
             "max_distance": max_distance,
             "doc_id": doc_id,
+            "version": get_doc_version(doc_id),
         },
         sort_keys=True,
     )
@@ -78,17 +98,3 @@ def set_cached_answer(question: str, n_results: int, max_distance: float, result
         redis_client.set(key, json.dumps(result), ex=ANSWER_TTL)
     except redis.RedisError as e:
         print(f"Redis write failed: {e}")
-        
-
-
-
-if __name__ == "__main__":
-    q = "how do background tasks work?"
-    fake = {"answer": "Test answer", "sources": [{"page": 17}]}
-
-    print("A before:", get_cached_answer(q, 5, 1.2))
-    set_cached_answer(q, 5, 1.2, fake)
-    print("A after:", get_cached_answer(q, 5, 1.2))
-
-    print("B different n_results:", get_cached_answer(q, 3, 1.2))
-    print("C different threshold:", get_cached_answer(q, 5, 0.9))

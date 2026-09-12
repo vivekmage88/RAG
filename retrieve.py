@@ -48,24 +48,4 @@ def search_relevant(question:str, n_results: int = 5, max_distance: float = MAX_
                 "doc_title": metadatas[i]["doc_title"],
                 "distance": round(distance[i], 3),
             })
-    return matches    
-
-# Testing Phase
-if __name__ == "__main__":
-    questions = [
-        "how do I validate request bodies?",
-        "what is FastAPI built on top of?",
-        "how do background tasks work?",
-        "what is the capital of France?",
-    ]
-
-    for question in questions:
-        matches = search_relevant(question)
-        print(f"\n{question}")
-
-        if not matches:
-            print("  no relevant matches")
-            continue
-
-        for match in matches:
-            print(f"  {match['distance']}  p{match['page']}  {match['heading']}")
+    return matches

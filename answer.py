@@ -66,22 +66,6 @@ def answer_question(question: str, n_results: int = 5, max_distance: float = 1.2
 
         result = {"answer": answer, "sources": sources}
 
-    set_cached_answer(question, n_results, max_distance, doc_id, result)
-    result["cached"] = True
+    set_cached_answer(question, n_results, max_distance, result, doc_id)
+    result["cached"] = False
     return result
-
-# Test Phase
-if __name__ == "__main__":
-    q = "how do background tasks work?"
-
-    start = time.perf_counter()
-    first = answer_question(q)
-    t1 = time.perf_counter() - start
-
-    start = time.perf_counter()
-    second = answer_question(q)
-    t2 = time.perf_counter() - start
-
-    print(f"first:  {t1:.3f}s")
-    print(f"second: {t2:.3f}s")
-    print(f"same answer: {first['answer'] == second['answer']}")

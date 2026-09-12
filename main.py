@@ -1,9 +1,10 @@
 import os
 import re
+import shutil
 from fastapi import FastAPI
 from schemas import AskRequest, AskResponse, Source
 from answer import answer_question
-from cache import get_cached_answer
+from cache import get_cached_answer, bump_doc_version
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException
 from ingest import build_chunks
 from store import store_chunks, collection
@@ -35,7 +36,7 @@ def safe_filename(name:str):
     cleaned = re.sub(r"[^A-Za-z0-9._-]", "_", base)
     return cleaned[:100]
 
-# File Upload APi & Function
+# File Upload API & Function
 
 @app.post("/documents", status_code=201)
 async def upload_document(
@@ -61,6 +62,7 @@ async def upload_document(
         raise HTTPException(status_code=400, detail="No extractable text found")
 
     count = store_chunks(chunks)
+    bump_doc_version(chunks[0].doc_id)
 
     return {
         "doc_id": chunks[0].doc_id,
@@ -68,9 +70,35 @@ async def upload_document(
         "pages": count,
         "chunks_indexed": count,
     }
-# TestCase
-if __name__ == "__main__":
-    for name in ["report.pdf", "../../etc/passwd", "my file (1).pdf", "a" * 300 + ".pdf"]:
-        print(f"{name[:40]!r:45} -> {safe_filename(name)!r}")
-        
-        print(collection.count())
+
+# APIs for getting the document and deleting it
+@app.get("/documents")
+def list_documents():
+    data = collection.get(include=["metadatas"])
+
+    documents = {}
+    for meta in data["metadatas"]:
+        doc_id = meta["doc_id"]
+        if doc_id not in documents:
+            documents[doc_id] = {
+                "doc_id": doc_id,
+                "doc_title": meta["doc_title"],
+                "chunks": 0,
+            }
+        documents[doc_id]["chunks"] += 1
+
+    return {"documents": list(documents.values())}
+
+
+@app.delete("/documents/{doc_id}")
+def delete_document(doc_id: str):
+    existing = collection.get(where={"doc_id": doc_id}, include=["metadatas"])
+
+    if not existing["ids"]:
+        raise HTTPException(status_code=404, detail=f"No document with id {doc_id}")
+
+    removed = len(existing["ids"])
+    collection.delete(where={"doc_id": doc_id})
+    bump_doc_version(doc_id)
+
+    return {"doc_id": doc_id, "chunks_removed": removed}

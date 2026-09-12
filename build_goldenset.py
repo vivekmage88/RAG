@@ -16,12 +16,3 @@ def build_golden_set(path:str):
         for question in find_questions(clean(raw)):
             cases.append({"question": question, "expected_page": page_num})
     return cases
-
-
-if __name__ == "__main__":
-    cases = build_golden_set("fastapi.pdf")
-
-    with open("golden_set.json", "w") as f:
-        json.dump(cases, f, indent=2)
-
-    print(f"{len(cases)} test cases written to golden_set.json")
